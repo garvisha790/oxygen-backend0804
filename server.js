@@ -10,6 +10,7 @@ const plantRoutes = require("./routes/plantRoutes");
 const deviceRoutes = require("./routes/deviceRoutes");
 const telemetryRoutes = require("./routes/telemetryRoutes");
 const azureDeviceRoutes = require("./routes/azureDevice");
+const alarmRoutes = require('./routes/alarmRoutes');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/plants", plantRoutes);
 app.use("/api/devices", deviceRoutes);
 app.use("/api/telemetry", telemetryRoutes);
 app.use("/api/azure", azureDeviceRoutes);
+app.use('/api/alarms', alarmRoutes);
 
 // Start the Express server
 const PORT = process.env.PORT || 5000;

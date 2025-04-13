@@ -57,7 +57,6 @@ const fetchTelemetryDataByDeviceName = async (deviceName, limit = 20) => {
 const fetchLatestTelemetryByDeviceName = async (deviceName) => {
     const result = await fetchTelemetryDataByDeviceName(deviceName, 1);
     return result.length ? result[0] : null;
-
 };
 
 // 🛠 **Fetch diagnostic data (All records, limited to 100)**
