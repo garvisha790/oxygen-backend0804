@@ -94,9 +94,8 @@ router.get("/latest/:deviceId", async (req, res) => {
         const { deviceId } = req.params;
         const database = client.database(databaseId);
         const container = database.container(containerId);
-        console.log(`🔄 Fetching latest telemetry for device: ${deviceId}`);
         const device = await Device.findById(deviceId);
-        console.log(`hii???Container for device: ${device.deviceName}`);
+        
 
         // Skip MongoDB validation
         console.log("⚠️ Skipping MongoDB validation");
