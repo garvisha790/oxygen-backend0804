@@ -60,31 +60,42 @@ const mongoose = require('mongoose');
 require("dotenv").config();
 
 // Create a separate connection to the `oxygen_monitor` DB
-const dbURI = process.env.MONGO_URI_OXYGEN;
+const dbURI = process.env.MONGO_URI_OXYGEN || "mongodb+srv://garvisha:apphelix@oxygen-monitor.ivkylso.mongodb.net/oxygen_monitor?retryWrites=true&w=majority&appName=Oxygen-Monitor";
+
+console.log('Connecting to oxygen_monitor database with URI:', dbURI);
+
 const oxygenConnection = mongoose.createConnection(
-  "mongodb+srv://garvisha:apphelix@oxygen-monitor.ivkylso.mongodb.net/oxygen_monitor?retryWrites=true&w=majority&appName=Oxygen-Monitor",
+  dbURI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }
 );
 
+// Log connection status
+oxygenConnection.on('connected', () => {
+  console.log('✅ Successfully connected to oxygen_monitor database');
+});
+
+oxygenConnection.on('error', (err) => {
+  console.error('❌ Error connecting to oxygen_monitor database:', err);
+});
+
 // Define the schema (same as before)
 const alarmSchema = new mongoose.Schema({
-  SqlId: Number,
   AlarmId: { type: Number, required: true },
-  DeviceId: { type: Number, required: true },
+  AlarmCode: { type: String, required: true },
+  AlarmName: String,
+  AlarmDescription: String,
   AlarmValue: String,
-  CreatedBy: Number,
+  DeviceId: { type: Number, required: true },
+  DeviceName: String,
+  PlantName: String,
   IsActive: { type: Boolean, default: true },
   CreatedTimestamp: { type: Date, default: Date.now },
-  TelemetryKeyId: Number,
-  AlarmRootCauseId: Number,
+  CreatedBy: Number,
+  UpdatedTimestamp: { type: Date },
   UpdatedBy: Number,
-  UpdatedTimestamp: { type: Date, default: Date.now },
-  AlarmCode: String,
-  AlarmDescription: String,
-  DeviceName: String,
   IsRead: { type: Boolean, default: false }
 });
 

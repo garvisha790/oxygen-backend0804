@@ -1,9 +1,10 @@
 const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { CosmosClient } = require("@azure/cosmos");
-const mongoose = require("mongoose");
-const Device = require("../models/Device");
-const { getTelemetryDataByDeviceName } = require("../services/cosmosService");
+const mongoose = require('mongoose');
+const Device = require('../models/Device');
+// Import getTelemetryDataByDeviceName from cosmosService
+const { getTelemetryDataByDeviceName } = require('../services/cosmosService');
 
 // CosmosDB Config from environment variables
 const endpoint = process.env.COSMOSDB_ENDPOINT;
@@ -12,10 +13,25 @@ const databaseId = process.env.COSMOSDB_DATABASE;
 const containerId = process.env.COSMOSDB_CONTAINER;
 
 // Log CosmosDB configuration (excluding key for security)
-console.log("CosmosDB Configuration:");
-console.log(`Endpoint: ${endpoint ? endpoint.substring(0, 15) + "..." : "Not set"}`);
-console.log(`Database ID: ${databaseId || "Not set"}`);
+console.log('CosmosDB Configuration:');
+console.log(`Endpoint: ${endpoint ? endpoint.substring(0, 15) + '...' : 'Not set'}`);
+console.log(`Database ID: ${databaseId || 'Not set'}`);
+console.log(`Container ID: ${containerId || 'Not set'}`);
+
 console.log(`Container ID: ${containerId || "Not set"}`);
+
+// GET latest telemetry for a device by name
+router.get('/latest/:deviceName', async (req, res) => {
+  try {
+    const deviceName = req.params.deviceName;
+    const data = await getTelemetryDataByDeviceName(deviceName);
+    if (!data) return res.status(404).json({ message: 'No telemetry found for device ' + deviceName });
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching telemetry:', err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 // Create a client with the credentials
 const client = new CosmosClient({ endpoint, key });

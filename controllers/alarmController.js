@@ -1,28 +1,29 @@
 const Alarm = require('../models/alarmModel'); // Now pointing to oxygen_monitor DB
 const Device = require('../models/Device');
+const { fetchAlarmsFromCosmos } = require('../services/cosmosService');
 
 console.log("Alarm model connected to oxygen_monitor DB" , Alarm);
-// Get all alarms
+// Get all alarms from oxygen_monitor.alarms
 exports.getAllAlarms = async (req, res) => {
   try {
-    console.log("The alarms_________________ are:");
-    const alarms = await Alarm.find().sort({ CreatedTimestamp: -1 });
-    
+    const alarms = await Alarm.find({}).sort({ CreatedTimestamp: -1 });
     res.status(200).json(alarms);
   } catch (error) {
-    console.error('❌ Error fetching alarms:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
 
-// Get alarms by device ID
+// Get alarms by device ID from oxygen_monitor.alarms
 exports.getAlarmsByDevice = async (req, res) => {
   try {
     const { deviceId } = req.params;
-    const alarms = await Alarm.find({ DeviceId: deviceId }).sort({ CreatedTimestamp: -1 });
+    let query = {};
+    if (deviceId && deviceId !== 'all') {
+      query.DeviceId = deviceId;
+    }
+    const alarms = await Alarm.find(query).sort({ CreatedTimestamp: -1 });
     res.status(200).json(alarms);
   } catch (error) {
-    console.error(`❌ Error fetching alarms for device ${req.params.deviceId}:`, error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
