@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const Plant = require('../models/plant');
+=======
+const Plant = require('../models/Plant');
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 
 exports.getPlants = async (req, res) => {
   try {

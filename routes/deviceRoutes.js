@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Device = require('../models/Device');
+<<<<<<< HEAD
  
 // ✅ GET all devices (optionally filter by plantId)
+=======
+
+// GET devices (with optional plantId filter)
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 router.get('/', async (req, res) => {
   try {
     const { plantId } = req.query;
@@ -14,6 +19,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+<<<<<<< HEAD
  
 // ✅ GET parent devices for a site
 router.get('/parents', async (req, res) => {
@@ -44,12 +50,17 @@ router.get('/:parentId/children', async (req, res) => {
 });
  
 // ✅ POST - Add a new device (parentDeviceId can be null or device _id)
+=======
+
+// POST (Add) a device
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 router.post('/', async (req, res) => {
   try {
     const newDevice = new Device(req.body);
     await newDevice.save();
     res.status(201).json(newDevice);
   } catch (error) {
+<<<<<<< HEAD
     console.error('Error adding device:', error);
     res.status(400).json({ message: 'Error adding device' });
   }
@@ -67,14 +78,28 @@ router.put('/:id', async (req, res) => {
 });
  
 // ✅ DELETE - Remove a device
+=======
+    res.status(400).json({ message: 'Error adding device' });
+  }
+});
+
+// DELETE a device
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 router.delete('/:id', async (req, res) => {
   try {
     await Device.findByIdAndDelete(req.params.id);
     res.json({ message: 'Device deleted' });
   } catch (error) {
+<<<<<<< HEAD
     console.error('Error deleting device:', error);
     res.status(500).json({ message: 'Error deleting device' });
   }
 });
  
+=======
+    res.status(500).json({ message: 'Error deleting device' });
+  }
+});
+
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 module.exports = router;

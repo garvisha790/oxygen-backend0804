@@ -1,10 +1,18 @@
 const express = require("express");
+<<<<<<< HEAD
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Device = require('../models/Device');
 // Import getTelemetryDataByDeviceName from cosmosService
 const { getTelemetryDataByDeviceName } = require('../services/cosmosService');
+=======
+const router = express.Router();
+const { CosmosClient } = require("@azure/cosmos");
+const mongoose = require("mongoose");
+const Device = require("../models/Device");
+const { getTelemetryDataByDeviceName } = require("../services/cosmosService");
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 
 // CosmosDB Config from environment variables
 const endpoint = process.env.COSMOSDB_ENDPOINT;
@@ -13,6 +21,7 @@ const databaseId = process.env.COSMOSDB_DATABASE;
 const containerId = process.env.COSMOSDB_CONTAINER;
 
 // Log CosmosDB configuration (excluding key for security)
+<<<<<<< HEAD
 console.log('CosmosDB Configuration:');
 console.log(`Endpoint: ${endpoint ? endpoint.substring(0, 15) + '...' : 'Not set'}`);
 console.log(`Database ID: ${databaseId || 'Not set'}`);
@@ -33,6 +42,13 @@ router.get('/latest/:deviceName', async (req, res) => {
   }
 });
 
+=======
+console.log("CosmosDB Configuration:");
+console.log(`Endpoint: ${endpoint ? endpoint.substring(0, 15) + "..." : "Not set"}`);
+console.log(`Database ID: ${databaseId || "Not set"}`);
+console.log(`Container ID: ${containerId || "Not set"}`);
+
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 // Create a client with the credentials
 const client = new CosmosClient({ endpoint, key });
 
@@ -110,8 +126,14 @@ router.get("/latest/:deviceId", async (req, res) => {
         const { deviceId } = req.params;
         const database = client.database(databaseId);
         const container = database.container(containerId);
+<<<<<<< HEAD
         const device = await Device.findById(deviceId);
         
+=======
+        console.log(`🔄 Fetching latest telemetry for device: ${deviceId}`);
+        const device = await Device.findById(deviceId);
+        console.log(`hii???Container for device: ${device.deviceName}`);
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 
         // Skip MongoDB validation
         console.log("⚠️ Skipping MongoDB validation");
@@ -124,7 +146,10 @@ router.get("/latest/:deviceId", async (req, res) => {
         }
 
         res.json(latestData);
+<<<<<<< HEAD
         
+=======
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
     } catch (error) {
         console.error("❌ Error fetching latest telemetry:", error);
         res.status(500).json({ message: "Internal server error" });

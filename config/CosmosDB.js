@@ -1,5 +1,6 @@
 const { CosmosClient } = require("@azure/cosmos");
 
+<<<<<<< HEAD
 // Load CosmosDB Configuration from Environment Variables (defaults: iiot-telemetry-db database, device-telemetry container)
 // IMPORTANT: Set these in your .env file using your Azure CosmosDB PRIMARY KEY and ENDPOINT
 // COSMOSDB_ENDPOINT=your-endpoint-url
@@ -8,6 +9,13 @@ const endpoint = process.env.COSMOSDB_ENDPOINT;
 const key = process.env.COSMOSDB_KEY;
 const databaseId = process.env.COSMOSDB_DATABASE || "iiot-telemetry-db";
 const containerId = process.env.COSMOSDB_CONTAINER || "device-telemetry";
+=======
+// Load CosmosDB Configuration from Environment Variables
+const endpoint = process.env.COSMOSDB_ENDPOINT;
+const key = process.env.COSMOSDB_KEY;
+const databaseId = process.env.COSMOSDB_DATABASE;
+const containerId = process.env.COSMOSDB_CONTAINER;
+>>>>>>> 4afd72803bc02df8bd9a2bdabbed18b96955b4bb
 
 // Check if credentials are properly set
 if (!endpoint || !key || !databaseId || !containerId) {
